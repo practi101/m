@@ -1,0 +1,30 @@
+import pandas as pd
+import numpy as np 
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+df = pd.read_csv("sales_data_sample.csv",encoding ='latin1')
+x=df.iloc[:,[1,4]].values
+
+wccs_list=[]
+for i in range(1,11):
+  km=KMeans(n_clusters=i,init='k-means++',random_state=42)
+  km.fit(x)
+  wccs_list.append(km.inertia_)
+plt.plot(range(1,11),wccs_list)
+plt.title("elbow")
+plt.xlabel("no. of cluster")
+plt.ylabel("wcss_list")
+plt.show()
+
+
+kme=KMeans(n_clusters=3,init='k-means++',random_state=42)
+y_pred=kme.fit_predict(x)
+
+plt.scatter(x[y_pred == 0,0],x[y_pred==0,1],c='blue',label='Cluster 1')
+plt.scatter(x[y_pred == 1,0],x[y_pred==1,1],c='green',label='Cluster 2')
+plt.scatter(x[y_pred == 2,0],x[y_pred==2,1],c='red',label='Cluster 3')
+plt.title("k mean cluster")
+plt.xlabel("quantity ordered")
+plt.ylabel("sales")
+plt.legend()
+plt.show()
