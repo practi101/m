@@ -1,1 +1,41 @@
+import pandas as pd
+import numpy as np
+import matplotlib as plt
+from sklearn.model_selection import train_test_split
+df = pd.read_csv("emails.csv")
+df.head()
 
+df.drop(['Email No.'],axis=1,inplace=True)
+
+x=df.drop(['Prediction'],axis=1)
+y=df['Prediction']
+
+x_train , x_test , y_train , y_test = train_test_split(x,y,test_size=0.20,random_state=0)
+
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+x_train=sc.fit_transform(x_train)
+x_test=sc.fit_transform(x_test)
+
+
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors =5)
+knn.fit(x_train,y_train)
+
+y_pre=knn.predic(x_test)
+
+
+from sklearn.metrics import accuracy_score,mean_squared_error
+mse=mean_squared_error(y_test,y_pred)
+rmse=ean_squared_error(y_test,y_pred , squared=False)
+ac= accuracy_score(y_test,y_pred)
+
+
+from sklearn.svm import SVC
+sm=SVC(C=1)
+sm.fit(x_train,y_train)
+y_pred2=sm.predict(x_test)
+
+mse=mean_squared_error(y_test,y_pred2)
+rmse=ean_squared_error(y_test,y_pred2 , squared=False)
+ac= accuracy_score(y_test,y_pred2)
