@@ -1,0 +1,18 @@
+import numpy as np
+
+def gda(start,gradiant,l_rate,iter,tol=0.1):
+    steps=[start]
+    x=start
+    for i in range(iter):
+        difference=l_rate*gradiant(x)
+        if np.abs(difference) < tol:
+            break
+        x= x - difference
+        steps.append(x)
+    return steps,l_rate,x,len(steps)
+
+
+def gra(x):
+    return 2*(x+3)
+
+history , l_rate ,result ,steps = gda(2,gra,100,0.1)
